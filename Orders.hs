@@ -46,10 +46,7 @@ ratioConsistentMinusRandom f scale sample = attested - random
       random = ratioConsistent f scale $ take 10000 $ randomPairs $ concat scale
 
 randomTrialsBetter :: (Ord a) => ([[a]] -> (a,a) -> Bool) -> [[a]] -> [(a,a)] -> Double
-randomTrialsBetter f scale sample = (/10000) 
-                                    $ fromIntegral
-                                    $ length 
-                                    $ filter (> attested) 
+randomTrialsBetter f scale sample = (/10000) $ fromIntegral $ length $ filter (> attested) 
                                     $ map randomTrial [0..10000]
     where
       n = length sample
