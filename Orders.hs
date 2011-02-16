@@ -12,7 +12,7 @@ import System.IO.Unsafe
 
 data ScaleResult a = ScaleResult 
     { srScale :: [[a]]
-    , srAboveRandom :: Double
+    , srRandTrialsBetter :: Double
     } deriving (Show, Eq)
 
 allScales :: Ord a => [a] -> [[[a]]]
@@ -55,6 +55,9 @@ randomTrialsBetter f scale sample = (/10000)
       n = length sample
       attested = ratioConsistent f scale sample
       randomTrial _ = ratioConsistent f scale $ take n $ randomPairs $ concat scale
+
+resultsForScales :: (Ord a) => [[[a]]] -> [(a, a)] -> [ScaleResult a]
+resultsForScales scales sample = map (\s -> ScaleResult s (randomTrialsBetter isStrictlyConsistent s sample)) scales
 
 randomPairs :: Ord a => [a] -> [(a,a)]
 randomPairs xs = (a,b):(randomPairs xs)
